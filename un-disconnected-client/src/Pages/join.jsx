@@ -3,10 +3,11 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import theme from "../theme/theme"
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 
 
 
-class Home extends React.Component {
+class Join extends React.Component {
     
     render() {
          return (
@@ -17,13 +18,13 @@ class Home extends React.Component {
                 justifyContent="center"
                 alignItems="center"
                 spacing={4}>
-                    <h1>Un-Disconnected</h1>
-                    <Button variant="contained" href="/join">Join A Room</Button>
-                    <Button variant="contained" href="/createroom"> Create a Room</Button>
+                    <h1>Join A game</h1>
+                    <TextField id="outlined-basic" label="Join Code"  margin="normal" type="search" color="text" focused/>
+
                 </Stack>
             </ThemeProvider>
         )
     }
 }
 
-export default Home;
+export default Join;

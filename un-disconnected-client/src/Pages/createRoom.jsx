@@ -22,11 +22,14 @@ class CreateRoom extends React.Component {
                     <Stack
                         mt={3}
                         direction="column"
-                        justifyContent="center"
                         alignItems="center"
                         spacing={4}>
-
+                            <h3><b>Eduardo</b></h3>
+                            <h3><b>Jeff</b></h3>
+                            <h3><b>Tate</b></h3>
+                            <h3><b>Camden</b></h3>
                         </Stack>
+
                 </Stack>
             </ThemeProvider>
         )

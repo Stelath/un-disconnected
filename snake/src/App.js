@@ -10,14 +10,14 @@ function App() {
 }
 
 //move this to snake?
-const HEIGHT = 10;
-const WIDTH = 10;
-
-const LEFT  = 37; 
-const UP    = 38;
-const RIGHT = 39; 
-const DOWN  = 40;
-const STOP  = 32;
+const HEIGHT = 20;
+const WIDTH = 20;
+// 10 x 10
+const LEFT  = '0010'; 
+const UP    = '1000';
+const RIGHT = '0001'; 
+const DOWN  = '0100';
+const STOP  = '0000';
 
 const emptyRows = () =>
   [...Array(WIDTH)].map((_) => [...Array(HEIGHT)].map((_) => "grid-item"));
@@ -117,6 +117,16 @@ class SnakeGame extends Component {
     }
   }
 
+  setDirections = (intVal) => {
+    var binary = intVal.toString(2);
+    
+    this.changeDirection(snake,binary.slice(0,5));
+    this.changeDirection(snake,binary.slice(4,9));
+    this.changeDirection(snake,binary.slice(9,13));
+    this.changeDirection(snake,binary.slice(13,16));
+    
+  }
+
   changeDirection = (snake, { keyCode }) => {
     let direction = snake.direction;
     if(snake.alive===1){
@@ -134,7 +144,7 @@ class SnakeGame extends Component {
           direction = direction === UP ? UP : DOWN;
           break;
         case STOP:
-          direction = STOP;
+          
           break;
         default:
           break;
@@ -170,8 +180,7 @@ componentDidUpdate() {
       row.map((value, j) => <div name={`${i}=${j}`} className={value} />)
     );
     return (
-      <div className="a">
-        <h1> Snake v0.1.1</h1>
+      <div>
 
         {/* <li>press "space" to pause the game.</li>
               <li>press "arrow keys" to change direction/ unpause.</li> */}
