@@ -4,8 +4,8 @@
 snake/node_modules
 snake/.pnp
 
-un-disconnected/node_modules
-un-disconnected/.pnp
+un-disconnected-client/node_modules
+un-disconnected-client/.pnp
 
 un-disconnected-server/node_modules
 un-disconnected-server/.pnp
@@ -17,7 +17,7 @@ un-disconnected-server/.pnp
 
 # production
 snake/build
-un-disconnected/build
+un-disconnected-client/build
 un-disconnected-server/build
 
 # misc
