@@ -1,11 +1,22 @@
-import React from "react"
+import React, { useState, useEffect } from "react";
+import socketIOClient from "socket.io-client";
+const ENDPOINT = "http://127.0.0.1:4001";
 
-class Mobile extends React.Component {
-    constructor(props) {
-        super(props)
-    }
+const Mobile = (props) => {
+    const [response, setResponse] = useState("");
 
-    render() {
-        return "THIS IS THE MOBILE PAGE"
-    }
-}
+    useEffect(() => {
+      const socket = socketIOClient(ENDPOINT);
+      socket.on("FromAPI", data => {
+        setResponse(data);
+      });
+    }, []);
+  
+    return (
+      <p>
+        It's <time dateTime={response}>{response}</time>
+      </p>
+    );  
+};
+
+export default Mobile;

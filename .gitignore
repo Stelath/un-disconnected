@@ -1,15 +1,24 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
-/.pnp
+snake/node_modules
+snake/.pnp
+
+un-disconnected/node_modules
+un-disconnected/.pnp
+
+un-disconnected-server/node_modules
+un-disconnected-server/.pnp
+
 .pnp.js
 
 # testing
 /coverage
 
 # production
-/build
+snake/build
+un-disconnected/build
+un-disconnected-server/build
 
 # misc
 .DS_Store

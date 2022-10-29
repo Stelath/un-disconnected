@@ -1,16 +1,15 @@
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./Pages/home";
+import Mobile from "./Pages/mobile";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="mobile" element={<Blogs />} />
-          <Route path="contact" element={<Contact />} />
-          <Route path="*" element={<NoPage />} />
-        </Route>
+        
+        <Route index element={<Home />} />
+        <Route path="mobile" element={<Mobile />} />
       </Routes>
     </BrowserRouter>
   );
