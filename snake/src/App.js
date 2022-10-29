@@ -11,7 +11,7 @@ function App() {
 
 //move this to snake?
 const HEIGHT = 10;
-const WIDTH = 20;
+const WIDTH = 10;
 
 const LEFT  = 37; 
 const UP    = 38;
@@ -46,7 +46,7 @@ class SnakeGame extends Component {
     super(props);
 
     this.state = initialState;
-    this.setState(aliveSnakes  this.state.snake1.alive + this.state.snake2.alive + this.state.snake3.alive + this.state.snake4.alive);
+    this.setState({aliveSnakes: this.state.snake1.alive + this.state.snake2.alive + this.state.snake3.alive + this.state.snake4.alive});
 
   }
 

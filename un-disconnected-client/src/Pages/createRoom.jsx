@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 
 
 
-class Home extends React.Component {
+class CreateRoom extends React.Component {
     
     render() {
          return (
@@ -17,13 +17,20 @@ class Home extends React.Component {
                 justifyContent="center"
                 alignItems="center"
                 spacing={4}>
-                    <h1>Un-Disconnected</h1>
-                    <Button variant="contained">Join A Room</Button>
-                    <Button variant="contained">Create a Room</Button>
+                    <h1>Join Code: 000000 (replace later)</h1>
+                    <h2>Members Joined: 0/4(change later)</h2>
+                    <Stack
+                        mt={3}
+                        direction="column"
+                        justifyContent="center"
+                        alignItems="center"
+                        spacing={4}>
+
+                        </Stack>
                 </Stack>
             </ThemeProvider>
         )
     }
 }
 
-export default Home;
+export default CreateRoom;
