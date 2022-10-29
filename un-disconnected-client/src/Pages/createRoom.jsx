@@ -6,7 +6,7 @@ import theme from "../theme/theme"
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 
-const ENDPOINT = "http://127.0.0.1:4001";
+const ENDPOINT = "https://un-disconnected-server.onrender.com:10000";
 
 class CreateRoom extends React.Component {
 

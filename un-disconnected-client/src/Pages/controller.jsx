@@ -4,7 +4,7 @@ import socketIOClient from "socket.io-client";
 
 import MobileControls from "../components/mobileControls";
 
-const ENDPOINT = "http://127.0.0.1:4001";
+const ENDPOINT = "https://un-disconnected-server.onrender.com:10000";
 
 const Controller = () => {
     const [searchParams, setSearchParams] = useSearchParams();
