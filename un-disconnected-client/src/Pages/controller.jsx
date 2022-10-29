@@ -1,23 +1,28 @@
 import React, { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import socketIOClient from "socket.io-client";
 
 import MobileControls from "../components/mobileControls";
 
 const ENDPOINT = "http://127.0.0.1:4001";
 
-const Controller = ({roomCode}) => {
-    const [response, setResponse] = useState("");
+const Controller = () => {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [socket] = useState(socketIOClient(ENDPOINT));
 
-    const socket = socketIOClient(ENDPOINT);
-    // useEffect(() => {
-      
-    //   socket.on("FromAPI", data => {
-    //     setResponse(data);
-    //   });
-    // }, []);
+    useEffect(() => {
+      const roomCode = searchParams.get("joinCode");
+      const name = searchParams.get("name");
+      console.log(roomCode, name); // eslint-disable-line no-console
+      socket.emit("join-room", {roomCode, name});
+      return () => {
+        // here is componentWillUnmount
+        socket.disconnect()
+      }
+    }, []);
 
     const newInput = (input) => {
-      socket.emit(`${roomCode}/${input}`);
+      socket.emit("input", {input: input});
     }
   
     return (

@@ -13,7 +13,7 @@ const server = http.createServer(app);
 const io = socketIo(server, { cors: { origin: "*" } });
 
 const game = require("./game");
-let games = [];
+let games = {};
 
 io.on("connection", (socket) => {
   console.log("New client connected");
@@ -25,27 +25,40 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     console.log("Client disconnected");
-    clearInterval(interval);
   });
 });
 
 const makeNewRoom = (socket) => {
-  socket.once("new-room", () => {
-    const roomID = Math.floor(Math.random() * 10000);
-    games.append(new game(roomID));
+  socket.once("create-room", (data) => {
+    const roomID = Math.floor(Math.random() * 10000).toString();
+    games[roomID] = (new game(roomID));
     socket.join(roomID);
+    io.to(roomID).emit("room-created", roomID);
+    console.log("Room created: " + roomID); // emit to the socket that created the room
+    console.log(socket.rooms)
   });
 };
 
 const joinRoom = (socket) => {
-    socket.once("join-room", (roomID) => {
-        socket.join(roomID);
+    socket.once("join-room", (data) => {
+        if(data) {
+            const roomID = data.roomCode.toString();
+            const playerName = data.name;
+            if(games[roomID]) {
+                socket.join(roomID);
+                games[roomID].addPlayer(socket.id, playerName);
+                io.to(roomID).emit("room-created", 03)
+                io.to(roomID).emit("player-joined", playerName); // emit to everyone in the room
+                console.log("Player joined room: " + roomID); // emit to the socket that joined the room
+                console.log(games[roomID]); // emit to the socket that joined the room
+            }
+        }
     });
 };
 
 const listenForInput = (socket) => {
     socket.on("input", (data) => {
-        console.log(socket.id + ": " + data);
+        console.log(socket.id + ": " + data.input);
         console.log(socket.rooms)
     });
 };

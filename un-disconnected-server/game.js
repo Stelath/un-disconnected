@@ -5,9 +5,9 @@ class Game {
     this.playerState = {};
   }
 
-  addPlayer(playerID) {
+  addPlayer(playerID, playerName = "No Name") {
     this.connectedPlayers++;
-    this.playerState[playerID] = { direction: "", aPressed: false, bPressed: false }; // direction: "up", "down", "left", "right" or "" (no direction) // aPressed: true or false // bPressed: true or false
+    this.playerState[playerID] = { name: playerName, direction: "", aPressed: false, bPressed: false }; // direction: "up", "down", "left", "right" or "" (no direction) // aPressed: true or false // bPressed: true or false
   }
 }
 
