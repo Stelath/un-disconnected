@@ -10,6 +10,8 @@ function App() {
         
         <Route index element={<Home />} />
         <Route path="mobile" element={<Mobile />} />
+        <Route path="mobile" element={<Mobile />} />
+        <Route path="mobile" element={<Mobile />} />
       </Routes>
     </BrowserRouter>
   );
