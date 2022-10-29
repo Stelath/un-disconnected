@@ -5,18 +5,19 @@ import MobileControls from "../components/mobileControls";
 
 const ENDPOINT = "http://127.0.0.1:4001";
 
-const Controller = (props) => {
+const Controller = ({roomCode}) => {
     const [response, setResponse] = useState("");
 
-    useEffect(() => {
-      const socket = socketIOClient(ENDPOINT);
-      socket.on("FromAPI", data => {
-        setResponse(data);
-      });
-    }, []);
+    const socket = socketIOClient(ENDPOINT);
+    // useEffect(() => {
+      
+    //   socket.on("FromAPI", data => {
+    //     setResponse(data);
+    //   });
+    // }, []);
 
-    const newInput = (evt, data) => {
-      console.log(evt, data)
+    const newInput = (input) => {
+      socket.emit(`${roomCode}/${input}`);
     }
   
     return (

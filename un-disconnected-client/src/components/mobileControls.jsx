@@ -20,10 +20,10 @@ const MobileControls = ({onNewInput}) => {
         }}
         // all events supported by nipplejs are available as callbacks
         // see https://github.com/yoannmoinet/nipplejs#start
-        onMove={onNewInput}
+        onMove={(evt, data) => onNewInput(data.direction.angle)}
       />
-      <button id="a" onClick={onNewInput}>A</button>
-      <button id="b" onClick={onNewInput}>B</button>
+      <button id="a" onClick={() => onNewInput('a')}>A</button>
+      <button id="b" onClick={() => onNewInput('b')}>B</button>
     </div>
   );
 };
