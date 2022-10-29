@@ -201,11 +201,10 @@ componentDidUpdate() {
   this.isCollideOthers(this.state.snake3,this.state.snake4, this.state.snake1, this.state.snake2);
   this.isCollideSelf(this.state.snake4);
   this.isCollideOthers(this.state.snake4,this.state.snake1,this.state.snake2,this.state.snake3);
-  // this.isEaten(this.state.snake1);
-  // this.isEaten(this.state.snake2);
-  // this.isEaten(this.state.snake3);
-  // this.isEaten(this.state.snake4);
-  this.isEaten();
+  this.isEaten(this.state.snake1);
+  this.isEaten(this.state.snake2);
+  this.isEaten(this.state.snake3);
+  this.isEaten(this.state.snake4);
 }
 
 startMovement = () =>{
@@ -217,13 +216,14 @@ startMovement = () =>{
 }
 
 componentDidMount() {
-  setInterval(this.moveSnake, .5);
+  setInterval(this.moveSnake, 500);
   document.onkeydown = this.changeDirection;
   document.title = "snake-game";
 }
 
 moveSnake = (selfSnake) => {
   let snakeCopy = [...selfSnake.body];
+
   let head  =  {...snakeCopy[snakeCopy.length-1]};
   switch (selfSnake.direction) {
       case LEFT:  head.y += -1; break;    
