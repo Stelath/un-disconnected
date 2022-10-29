@@ -1,0 +1,75 @@
+.main {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.snake-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.grid {
+  width: 500px;
+  height: 500px;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.grid-item {
+  outline: 1px solid grey;
+  width: 25px;
+  height: 25px;
+}
+
+.snake1 {
+  outline: 1px solid red;
+  background-color: red;
+  width: 25px;
+  height: 25px;
+}
+.snake2 {
+  outline: 1px solid green;
+  background-color: green;
+  width: 25px;
+  height: 25px;
+}
+.snake3 {
+  outline: 1px solid blue;
+  background-color: blue;
+  width: 25px;
+  height: 25px;
+}
+.snake4 {
+  outline: 1px solid yellow;
+  background-color: yellow;
+  width: 25px;
+  height: 25px;
+}
+
+.food {
+  outline: 1px solid purple;
+  background-color: purple;
+  width: 25px;
+  height: 25px;
+}
+
+.countdown{
+  font-size: 60;
+  align-items: center;
+  align-content: center;
+  width:50vw;
+  height: 50vh;
+  position: absolute;
+  top:25vh;
+  left:25vw;
+  
+}

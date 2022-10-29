@@ -4,14 +4,14 @@ import theme from "../theme/theme"
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-//import App from '/snake/src/App.js'
+import App from '../snake/src/App'
 
 
 class Game extends React.Component {
     
     render() {
          return (
-            <></>
+            <App/>
         )
     }
 }
