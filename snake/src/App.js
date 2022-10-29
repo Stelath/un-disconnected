@@ -3,12 +3,12 @@ import React, { Component } from "react";
 
 function App() {
   return (
-    <div>
+    <>
       <SnakeGame/>
-    </div>
+    </>
   );
-}
-
+}  
+ 
 //move this to snake?
 const HEIGHT = 20;
 const WIDTH = 20;
@@ -22,7 +22,7 @@ const STOP  = '0000';
 const emptyRows = () =>
   [...Array(WIDTH)].map((_) => [...Array(HEIGHT)].map((_) => "grid-item"));
  
-
+   
 
 const initialState = {
   rows: emptyRows(),
@@ -35,10 +35,9 @@ const initialState = {
   food3: {x:14, y:9},
   speed: 100,
   aliveSnakes: 4,
-  countdown: " ",
-};
+};    
 
-
+    
 class SnakeGame extends Component {
   constructor(props) {
     super(props);
@@ -49,6 +48,8 @@ class SnakeGame extends Component {
     this.state.rows[WIDTH-2][1] = "snake2";
     this.state.rows[1][HEIGHT-2] = "snake3";
     this.state.rows[WIDTH-2][HEIGHT-2] = "snake4";
+
+    
   }
 
   getRandomFood = () => {
@@ -216,10 +217,13 @@ startMovement = () =>{
 }
 
 componentDidMount() {
-  setInterval(this.moveSnake, 500);
+
+  setInterval(this.moveSnake(this.state.snake1), 500);
   document.onkeydown = this.changeDirection;
   document.title = "snake-game";
-}
+  
+       
+}    
 
 moveSnake = (selfSnake) => {
   let snakeCopy = [...selfSnake.body];
@@ -242,38 +246,51 @@ moveSnake = (selfSnake) => {
   this.update(); 
 }   
 
-countdownFunction = (num) => {
-  if(num === 3){
-    this.setState({countdown:"3"});
-  }else if (num === 2){
-    this.setState({countdown:"2"});
-  } else if (num === 1) {
-    this.setState({countdown:"1"});
-  } else if (num === 0) {
-    this.setState({countdown:"Go!"});
-  } 
-}
-
   render() {
     const displayRows = this.state.rows.map((row, i) =>
       row.map((value, j) => <div name={`${i}=${j}`} className={value} />)
     );
     return (
       <div>
-
+ 
         {/* <li>press "space" to pause the game.</li>
               <li>press "arrow keys" to change direction/ unpause.</li> */}
 
         <div className="snake-container">
           <div className="grid">{displayRows}</div>
         </div>
+        
 
         
-        {/* {this.startMovement()} */}
+        {/* {this.startMovement()}  */}
         
 
       </div>
     );
+  }
+}
+
+class Countdown extends Component{
+  constructor(props){
+    super(props);
+    
+    this.state = {countdown:5};
+  }
+
+  componentDidMount() { 
+    setInterval(() => {
+      // this.setState({countdown:this.state.countdown-1});
+      // if(this.state.countdown === 1) {
+      //   interval.clearInterval();
+      // }
+      console.log("counting foreevre")
+    }, 1000);
+  } 
+   
+  render(){
+    return(
+      <>{this.state.countdown}</>
+    )
   }
 }
 
