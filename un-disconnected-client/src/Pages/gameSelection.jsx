@@ -1,14 +1,13 @@
 import React from "react"
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import theme from "../theme/theme"
+import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
 
 
 
-class Join extends React.Component {
+class GameSelection extends React.Component {
     
     render() {
          return (
@@ -19,14 +18,12 @@ class Join extends React.Component {
                 justifyContent="center"
                 alignItems="center"
                 spacing={4}>
-                    <Typography variant="h3"> Join A Game </Typography>
-                    <TextField id="outlined-basic" label="Join Code" color="text" margin="normal"/>
-                    <Button variant="contained" href="/join">Join!</Button>
-
+                    <h1>Games:</h1>
+                    <Button variant="contained" href="/game">Snake</Button>
                 </Stack>
             </ThemeProvider>
         )
     }
 }
 
-export default Join;
+export default GameSelection;

@@ -1,6 +1,7 @@
 import React from "react"
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import theme from "../theme/theme"
+import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 
@@ -17,7 +18,7 @@ class Home extends React.Component {
                 justifyContent="center"
                 alignItems="center"
                 spacing={4}>
-                    <h1>Un-Disconnected</h1>
+                    <Typography variant="h3"> un-Disconnected </Typography>
                     <Button variant="contained" href="/join">Join A Room</Button>
                     <Button variant="contained" href="/createroom"> Create a Room</Button>
                 </Stack>

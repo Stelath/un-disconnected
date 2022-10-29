@@ -61,3 +61,15 @@
   width: 25px;
   height: 25px;
 }
+
+.countdown{
+  font-size: 60;
+  align-items: center;
+  align-content: center;
+  width:50vw;
+  height: 50vh;
+  position: absolute;
+  top:25vh;
+  left:25vw;
+  
+}

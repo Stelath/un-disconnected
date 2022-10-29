@@ -1,0 +1,20 @@
+button {
+    border-radius: 50%;
+    position: absolute;
+    width: 8rem;
+    height: 8rem;
+}
+
+#a {
+    top: 3rem;
+    right: 4rem;
+    background-color: rgb(215, 40, 40);
+    color: white;
+}
+
+#b {
+    top: 13rem;
+    right: 12rem;
+    background-color: rgb(215, 40, 40);
+    color: white;
+}
