@@ -50,7 +50,6 @@ const joinRoom = (socket) => {
                 io.to(roomID).emit("room-created", 03)
                 io.to(roomID).emit("player-joined", playerName); // emit to everyone in the room
                 console.log("Player joined room: " + roomID); // emit to the socket that joined the room
-                console.log(games[roomID]); // emit to the socket that joined the room
             }
         }
     });
