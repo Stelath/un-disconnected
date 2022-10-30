@@ -4,7 +4,7 @@ import socketIOClient from "socket.io-client";
 
 import MobileControls from "../components/mobileControls";
 
-const ENDPOINT = "https://un-disconnected-server.onrender.com:10000";
+const ENDPOINT = "http://localhost:4001";
 
 const Controller = () => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -22,7 +22,7 @@ const Controller = () => {
     }, []);
 
     const newInput = (input) => {
-      socket.emit("input", {input: input});
+      socket.emit("input", {input: input, roomCode: searchParams.get("joinCode")}); // eslint-disable-line no-console
     }
   
     return (

@@ -1,5 +1,9 @@
 import "./App.css";
 import React, { Component } from "react";
+import socketIOClient from "socket.io-client";
+
+const ENDPOINT = "http://localhost:4001"; // this is where we are connecting to with sockets
+
  
 function App() {
  return (
@@ -39,7 +43,8 @@ const emptyRows = () =>
 class SnakeGame extends Component {
  constructor(props) {
    super(props);
- 
+
+   this.roomCode = parseInt(prompt("ENTER ROOM CODE"))
    this.state = {
      rows: emptyRows(),
      snake1: { direction: DOWN, body: [{x: 1, y: 1}], alive: 1, color:"snake1" },
@@ -87,7 +92,6 @@ class SnakeGame extends Component {
    var rowsCopy =[...this.state.rows]
    selfSnake.direction = STOP;
    selfSnake.alive = 0;
-   console.log(rowsCopy)
    for (let i = 0; i < selfSnake.body.length; i++) {
      if (i == 0){
        rowsCopy[selfSnake.body[i].x][selfSnake.body[i].y] = otherSnake;
@@ -119,7 +123,6 @@ class SnakeGame extends Component {
      for (let i = 0; i < snak1.body.length; i++) {
        if (selfHead.x === snak1.body[i].x && selfHead.y === snak1.body[i].y) {
          this.killSnake(selfSnake,snak1.color);
-       console.log("collide1")
  
          this.gameOver();
        }
@@ -128,7 +131,6 @@ class SnakeGame extends Component {
    if(snak2.alive){
      for (let i = 0; i < snak2.body.length; i++) {
        if (selfHead.x === snak2.body[i].x && selfHead.y === snak2.body[i].y) {
-         console.log("collide2")
  
          this.killSnake(selfSnake,snak2.color);
         this.gameOver();
@@ -139,7 +141,6 @@ class SnakeGame extends Component {
     
      for (let i = 0; i < snak3.body.length; i++) {
        if (selfHead.x === snak3.body[i].x && selfHead.y === snak3.body[i].y) {
-         console.log("collide ")
          this.killSnake(selfSnake,snak3.color);
          this.gameOver(); //ending state
        }
@@ -165,7 +166,7 @@ class SnakeGame extends Component {
   
  }
  
- changeDirection = (snake, { keyCode }) => {
+ changeDirection = (snake, keyCode) => {
    let direction = snake.direction;
    if(snake.alive===1&&snake.direction !== STOP){
      switch (keyCode) {
@@ -187,9 +188,23 @@ class SnakeGame extends Component {
        default:
          break;
      }
-     snake.setState({
-       direction: direction,
-     });
+     switch(snake) {
+        case this.state.snake1:
+          this.setState({snake1: {...snake, direction: direction}});
+          break;
+        case this.state.snake2:
+          this.setState({snake2: {...snake, direction: direction}});
+          break;
+        case this.state.snake3:
+          this.setState({snake3: {...snake, direction: direction}});
+          break;
+        case this.state.snake4:
+          this.setState({snake4: {...snake, direction: direction}});
+          break;
+        default:
+          console.log("NO SNAKE FOUND");
+          break;
+     }
  }
 };
   update() {
@@ -236,6 +251,30 @@ startMovement = () =>{
 }
  
 componentDidMount() {
+    this.socket = socketIOClient(ENDPOINT);
+    this.socket.emit("join-room", {roomCode: this.roomCode, name: ""})
+    this.socket.on("new-input", data => {
+        for(let i = 0; i < data.length; i++) {
+          this.setDirections(data[i]);
+          switch(i) {
+            case 0:
+              this.changeDirection(this.state.snake1, data[i]);
+              break;
+            case 1:
+              this.changeDirection(this.state.snake2, data[i]);
+              break;
+            case 2:
+              this.changeDirection(this.state.snake3, data[i]);
+              break;
+            case 3:
+              this.changeDirection(this.state.snake4, data[i]);
+              break;
+            default:
+              break;
+          }
+        }
+    });
+
  var intervalID = setInterval(this.moveSnake, 100);    
 }   
  
