@@ -1,31 +1,31 @@
-// This is the custom color theme for our app
+import createTheme from '@material-ui/core/styles/createTheme';
+import { ThemeOptions } from '@material-ui/core/styles/createTheme';
 
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-
-const theme = createTheme({
-    // overrides: {
-    //     MuiInputLabel: { // Name of the component ⚛️ / style sheet
-    //       root: { // Name of the rule
-    //         color: "#fff",
-    //       }
-    //     },
-    //     MuiInputBase: {
-    //         input: {
-    //           background: "#fff",
-    //         },
-    //     },
-    //   },
-  typography: {
-    h3: {
-      color: "#FFFFFF"
-    }
-  },
+const themeOptions: ThemeOptions = {
   palette: {
-    primary: { main: "#007CC7", contrastText: "#FFFFFF" },
-    secondary: { main: "#203647" },
-    text: { primary: "#FFFFFF" },
-    background: { default: "#12232E" },
+    type: 'light',
+    primary: {
+      main: '#58A1D6',
+      light: '#58D6CC',
+      dark: '#5862D6',
+    },
+    secondary: {
+      main: '#f50057',
+    },
+    text: {
+      primary: '#ffffff',
+    },
+    background: {
+      default: 'rgb(88,214,141)',
+    },
   },
-});
+  typography: {
+    h1: {
+      fontWeight: 900,
+    },
+  },
+};
+
+const theme = createTheme(themeOptions);
 
 export default theme;

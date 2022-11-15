@@ -1,9 +1,8 @@
 import React from "react";
-import { ThemeProvider } from "@mui/material/styles";
 import theme from "../theme/theme";
-import Typography from "@mui/material/Typography";
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
+
+import { ThemeProvider } from "@mui/material/styles";
+import { Typography, Stack, Button } from "@mui/material";
 
 function Home() {
   return (
@@ -15,7 +14,11 @@ function Home() {
         alignItems="center"
         spacing={4}
       >
-        <Typography variant="h3"> un-Disconnected </Typography>
+        <Typography variant="h1"> un-Disconnected </Typography>
+        <Typography variant="h1">
+          WEB BASED
+          PARTY GAMES
+        </Typography>
         <Button variant="contained" href="/join">
           Join A Room
         </Button>
