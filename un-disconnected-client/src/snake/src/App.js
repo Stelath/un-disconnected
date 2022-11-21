@@ -1,17 +1,10 @@
 import "./App.css";
 import React, { Component } from "react";
 import socketIOClient from "socket.io-client";
+import { useSearchParams } from "react-router-dom";
 
-const ENDPOINT = "http://localhost:4001"; // this is where we are connecting to with sockets
+const ENDPOINT = `http://${window.location.host.split(':')[0]}:4001`; // this is where we are connecting to with sockets
 
- 
-function App() {
- return (
-   <>
-   <SnakeGame/>
-   </>
- );
-}  
 //move this to snake?
 const HEIGHT = 20;
 const WIDTH = 20;
@@ -37,14 +30,20 @@ const emptyRows = () =>
 //   food3: {x:14, y:9},
 //   speed: 100,
 //   aliveSnakes: 4,
-// };   
- 
-  
+// };
+
+const WrappedComponent = props => {
+  const [joinCode] = useSearchParams();
+
+  return <SnakeGame joinCode={joinCode.get('joinCode')} {...props} />
+}
+
+
 class SnakeGame extends Component {
  constructor(props) {
    super(props);
 
-   this.roomCode = parseInt(prompt("ENTER ROOM CODE"))
+   this.roomCode = props.joinCode;
    this.state = {
      rows: emptyRows(),
      snake1: { direction: DOWN, body: [{x: 1, y: 1}], alive: 1, color:"snake1" },
@@ -398,4 +397,4 @@ moveSnake = () => {
 //   }
 // }
  
-export default App;
+export default WrappedComponent;

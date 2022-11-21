@@ -35,12 +35,9 @@ const updateAllThings = () => {
     const DOWN  = '0100';
     const STOP  = '0000';
     Object.entries(games).forEach(([key, value]) => {
-        console.log(key)
         outputs = [];
-        console.log(value);
         if(!value) {return;}
         Object.entries(value.playerState).forEach(([key, value]) => {
-            console.log(value);
             switch(value.direction) {
                 case 'left': outputs.push(LEFT); break;
                 case 'up': outputs.push(UP); break;

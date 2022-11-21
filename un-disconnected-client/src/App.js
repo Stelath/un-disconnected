@@ -12,7 +12,7 @@ function App() {
       <Routes>
         <Route index element={<Home />} />
         <Route path="home" element={<Home />} />
-        <Route path="game" element={<Game />} />
+        <Route path="game" element={<Game />}/>
         <Route path="controller" element={<Controller />} />
         <Route path="join" element={<Join />} />
         <Route path="createroom" element={<CreateRoom />} />

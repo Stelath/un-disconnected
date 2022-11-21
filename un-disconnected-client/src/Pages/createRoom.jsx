@@ -6,7 +6,7 @@ import theme from "../theme/theme"
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 
-const ENDPOINT = "http://localhost:4001";
+const ENDPOINT = `http://${window.location.host.split(':')[0]}:4001`;
 
 class CreateRoom extends React.Component {
 
