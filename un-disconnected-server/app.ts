@@ -1,50 +1,30 @@
-const express = require("express");
-const http = require("http");
-const socketIo = require("socket.io");
+import { createServer } from 'http';
+import { Server, Socket } from 'socket.io';
+
+import Game from './games/game';
+import SnakeGame from './games/snakeGame';
 
 const port = process.env.PORT || 4001;
-const index = require("./routes/index");
 
-const app = express();
-app.use(index);
+const server = createServer();
+const io = new Server(server, { cors: { origin: "*" } });
 
-const server = http.createServer(app);
-
-const io = socketIo(server, { cors: { origin: "*" } });
-
-const game = require("./game");
-let games: Map<string, Game>;
+let games = new Map<string, Game>();
 
 io.on("connection", (socket) => {
   console.log("New client connected");
   
-  makeNewRoom(socket);
-  joinRoom(socket);
+  handleNewRoom(socket);
+  handleJoinRoom(socket);
 
-  listenForInput(socket);
+  handleNewInput(socket);
 
-  socket.on("disconnect", () => {
-    console.log("Client disconnected");
-  });
+  handleDisconnect(socket);
 });
 
 const updateAllThings = () => {
-    const LEFT  = '0010';
-    const UP    = '1000';
-    const RIGHT = '0001';
-    const DOWN  = '0100';
-    const STOP  = '0000';
     games.forEach((value: Game, key: string) => {
-        let outputs: string[] = [];
-        if(!value) {return;}
-        value.players.forEach((value: PlayerState, key: string) => {
-            switch(value.state) {
-                case 'left': outputs.push(LEFT); break;
-                case 'up': outputs.push(UP); break;
-                case 'right': outputs.push(RIGHT); break;
-                case 'down': outputs.push(DOWN); break;
-            }
-        });
+        const outputs = value.getState();
         
         io.to(key).emit("new-input", outputs);
     });
@@ -52,18 +32,37 @@ const updateAllThings = () => {
 
 setInterval(() => updateAllThings(), 30); // update all things every second
 
-const makeNewRoom = (socket) => {
+const handleNewRoom = (socket: Socket) => {
   socket.once("create-room", (data) => {
-    const roomID = Math.floor(Math.random() * 10000).toString();
-    games.set(roomID, new game(roomID));
+    if(!data || !data.gameType) {
+      io.to(socket.id).emit("room-creation-failed");
+      return false;
+    }
+
+    const gameType = data.gameType;
+    const roomID = Math.floor(Math.random() * 100000).toString().padEnd(5, '0');
+
+    switch(gameType) {
+      case 'snake':
+        games.set(roomID, new SnakeGame(socket.id, roomID));
+        break;
+      default:
+        io.to(socket.id).emit("room-creation-failed");
+        return false;
+    }
+
     socket.join(roomID);
     io.to(roomID).emit("room-created", roomID);
-    console.log("Room created: " + roomID); // emit to the socket that created the room
-    console.log(socket.rooms)
+
+    console.log(`Room created: ${roomID}`); // emit to the socket that created the room
+    console.log(socket.rooms);
+    console.log();
+
+    return true;
   });
 };
 
-const joinRoom = (socket) => {
+const handleJoinRoom = (socket: Socket) => {
     socket.once("join-room", (data) => {
         if(data) {
             const roomID: string = data.roomCode.toString();
@@ -71,15 +70,16 @@ const joinRoom = (socket) => {
             if(games.has(roomID)) {
                 socket.join(roomID);
                 games.get(roomID)?.addPlayer(socket.id, playerName);
-                // io.to(roomID).emit("room-created", 0)
+                
                 io.to(roomID).emit("player-joined", playerName); // emit to everyone in the room
-                console.log("Player joined room: " + roomID); // emit to the socket that joined the room
+
+                console.log(`Player joined room: ${roomID}\n`);
             }
         }
     });
 };
 
-const listenForInput = (socket) => {
+const handleNewInput = (socket: Socket) => {
     socket.on("input", (data) => {
         let roomID: string = data.roomCode;
         
@@ -95,5 +95,29 @@ const listenForInput = (socket) => {
         }
     });
 };
+
+const handleDisconnect = (socket: Socket) => {
+  socket.on("disconnecting", () => {
+    socket.rooms.forEach(room => {
+      if(games.has(room)) {
+        const game = games.get(room)!;
+        if(game.hostID == socket.id) {
+          games.delete(room);
+          io.to(room).emit("deleted-room");
+          console.log(`Deleted room: ${room}`)
+        } else {
+          if(game.players.has(socket.id)) {
+            io.to(game.roomID).emit("player-left", game.players.get(socket.id)!.name)
+            game.players.delete(socket.id);
+          }
+        }
+      }
+    });
+  });
+
+  socket.on("disconnect", () => {
+    console.log(`Client disconnected, ID: ${socket.id}\n`);
+  })
+}
 
 server.listen(port, () => console.log(`Listening on port ${port}`));

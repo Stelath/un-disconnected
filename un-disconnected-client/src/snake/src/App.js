@@ -1,9 +1,8 @@
 import "./App.css";
 import React, { Component } from "react";
-import socketIOClient from "socket.io-client";
 import { useSearchParams } from "react-router-dom";
 
-const ENDPOINT = `http://${window.location.host.split(':')[0]}:4001`; // this is where we are connecting to with sockets
+import socket from "../../service/socket";
 
 //move this to snake?
 const HEIGHT = 20;
@@ -65,6 +64,10 @@ class SnakeGame extends Component {
   
  }
  
+ componentWillUnmount() {
+  socket.disconnect();
+ }
+
  getRandomFood = () => {
    var result = {x:0, y:0};
    do {
@@ -169,19 +172,19 @@ class SnakeGame extends Component {
    let direction = snake.direction;
    if(snake.alive===1&&snake.direction !== STOP){
      switch (keyCode) {
-       case LEFT:
+       case 'LEFT':
          direction = direction === RIGHT ? RIGHT : LEFT;
          break;
-       case RIGHT:
+       case 'RIGHT':
          direction = direction === LEFT ? LEFT : RIGHT;
          break;
-       case UP:
+       case 'UP':
          direction = direction === DOWN ? DOWN : UP;
          break;
-       case DOWN:
+       case 'DOWN':
          direction = direction === UP ? UP : DOWN;
          break;
-       case STOP:
+       case 'STOP':
         
          break;
        default:
@@ -250,11 +253,9 @@ startMovement = () =>{
 }
  
 componentDidMount() {
-    this.socket = socketIOClient(ENDPOINT);
-    this.socket.emit("join-room", {roomCode: this.roomCode, name: ""})
-    this.socket.on("new-input", data => {
+    socket.on("new-input", data => {
+        console.log(data);
         for(let i = 0; i < data.length; i++) {
-          this.setDirections(data[i]);
           switch(i) {
             case 0:
               this.changeDirection(this.state.snake1, data[i]);

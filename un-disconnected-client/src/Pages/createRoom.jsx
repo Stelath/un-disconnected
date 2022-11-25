@@ -1,12 +1,10 @@
 import React from "react"
-import socketIOClient from "socket.io-client";
+import socket from "../service/socket";
 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import theme from "../theme/theme"
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-
-const ENDPOINT = `http://${window.location.host.split(':')[0]}:4001`;
 
 class CreateRoom extends React.Component {
 
@@ -16,20 +14,21 @@ class CreateRoom extends React.Component {
     }
     
     componentDidMount() {
-        this.socket = socketIOClient(ENDPOINT);
-        this.socket.emit("create-room");
-        this.socket.on("room-created", data => {
+        socket.connect();
+        socket.emit("create-room",  { gameType: 'snake' });
+
+        socket.on("room-created", data => {
             this.setState({joinCode: data});
         });
         
-        this.socket.on("player-joined", data => {
-            console.log("player joined (frontend)" + data)
+        socket.on("player-joined", data => {
+            console.log("player joined (frontend)" + data);
             this.setState({playerNames: [...this.state.playerNames, data]});
         });
-    }
 
-    componentWillUnmount(){
-        this.socket.disconnect();
+        socket.on("player-left", data => {
+            console.log("Player left: " + data);
+        });
     }
       
 

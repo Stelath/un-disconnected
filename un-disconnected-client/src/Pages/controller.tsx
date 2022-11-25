@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import socketIOClient from "socket.io-client";
+import socket from "../service/socket";
 
 import MobileControls from "../components/mobileControls";
 
-const ENDPOINT = `http://${window.location.host.split(':')[0]}:4001`;
-
 const Controller = () => {
     const [searchParams] = useSearchParams();
-    const [socket] = useState(socketIOClient(ENDPOINT));
 
     useEffect(() => {
+      socket.connect();
       const roomCode = searchParams.get("joinCode");
       const name = searchParams.get("name");
       console.log(roomCode, name); // eslint-disable-line no-console
